@@ -144,7 +144,6 @@ contract LPPoolV2 is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
 
   function exit() external override {
     withdraw(balanceOf(msg.sender));
-    getReward();
   }
 
   function getReward() public override updateReward(msg.sender) checkHalve checkStart {}
