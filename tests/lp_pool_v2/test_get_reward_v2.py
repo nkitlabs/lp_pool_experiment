@@ -30,7 +30,7 @@ def test_get_reward_one_user_pool_v2(alice, bob, lp_pool_v2, mock_lp_token, mock
     )
 
     # check getReward from alice request.
-    chain.sleep(1)
+    chain.sleep(86400)
     latest_time = chain.time()
     lp_pool_v2.getReward({"from": alice})
 
