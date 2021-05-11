@@ -55,9 +55,11 @@ contract LPPoolV2 is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
     lpt = IERC20(_lpt);
     startTime = _startTime;
     rewards = _rewards;
+    uint _totalReward = 0;
     for (uint i = 0; i < _rewards.length; i++) {
-      totalReward += _rewards[i];
+      _totalReward += _rewards[i];
     }
+    totalReward = _totalReward;
   }
 
   //================== Modifier ==================//
@@ -147,11 +149,6 @@ contract LPPoolV2 is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
   }
 
   function getReward() public override updateReward(msg.sender) checkHalve checkStart {}
-
-  function safeTransferMIRToken(address account, uint reward) internal virtual {
-    mir.safeTransfer(account, reward);
-    emit RewardPaid(account, reward);
-  }
 
   function notifyReward() external override onlyRewardDistribution updateReward(address(0)) {
     rewardRate = currentReward().div(DURATION);
