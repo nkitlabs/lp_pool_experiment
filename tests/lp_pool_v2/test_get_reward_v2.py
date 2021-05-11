@@ -110,6 +110,6 @@ def test_get_reward_multiple_users_pool_v2(alice, bob, lp_pool_v2, mock_lp_token
     amount_alice_should_get += (latest_time - prev_time) * \
         REWARDS[0] * stake_amount_alice // (365*86400) // total_supply_now
     assert abs(mock_mir_token.balanceOf(alice) - amount_alice_should_get) <= amount_alice_should_get // 1000, (
-        f'incorrect balanceOf(alice); expect {amount_alice_should_get},'
+        f'incorrect reward; expect {amount_alice_should_get},'
         f'got {mock_mir_token.balanceOf(alice)}'
     )

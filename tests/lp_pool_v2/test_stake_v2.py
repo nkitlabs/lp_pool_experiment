@@ -77,6 +77,6 @@ def test_get_rewards_after_second_stake(alice, lp_pool_v2, mock_lp_token, mock_m
         f'got {mock_lp_token.balanceOf(alice)}'
     )
     assert abs(mock_mir_token.balanceOf(alice) - amount_alice_should_get) <= amount_alice_should_get//1000, (
-        f'incorrect balanceOf(alice); expect {amount_alice_should_get},'
+        f'incorrect reward; expect {amount_alice_should_get},'
         f'got {mock_lp_token.balanceOf(alice)}'
     )
