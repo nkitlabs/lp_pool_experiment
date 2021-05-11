@@ -33,7 +33,7 @@ def mock_mir_token(alice):
 @pytest.fixture
 def lp_pool(alice, mock_lp_token, mock_mir_token, REWARDS):
     contract = alice.deploy(LPPool, mock_mir_token.address,
-                            mock_lp_token.address, chain.time()+5, REWARDS, 111)
+                            mock_lp_token.address, chain.time()+5, REWARDS)
     contract.setRewardDistribution(alice, {"from": alice})
     return contract
 
@@ -41,6 +41,6 @@ def lp_pool(alice, mock_lp_token, mock_mir_token, REWARDS):
 @pytest.fixture
 def lp_pool_v2(alice, mock_lp_token, mock_mir_token, REWARDS):
     contract = alice.deploy(LPPoolV2, mock_mir_token.address,
-                            mock_lp_token.address, chain.time()+5, REWARDS, 111)
+                            mock_lp_token.address, chain.time()+5, REWARDS)
     contract.setRewardDistribution(alice, {"from": alice})
     return contract

@@ -16,7 +16,6 @@ contract LPPool is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
   // Immutable
   IERC20 public immutable override mir;
   uint public immutable override startTime;
-  uint public immutable override totalReward;
 
   // Time
   uint public periodFinish;
@@ -24,6 +23,7 @@ contract LPPool is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
 
   // Reward
   uint[] public rewards;
+  uint public override totalReward;
   uint public rewardRate;
   uint public rewardPerTokenStored;
 
@@ -44,8 +44,7 @@ contract LPPool is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
     address _mir,
     address _lpt,
     uint _startTime,
-    uint[] memory _rewards,
-    uint _totalReward
+    uint[] memory _rewards
   ) {
     require(_rewards.length > 0, 'LPPool: initReward should be greater than zero');
     require(
@@ -57,7 +56,9 @@ contract LPPool is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
     lpt = IERC20(_lpt);
     startTime = _startTime;
     rewards = _rewards;
-    totalReward = _totalReward;
+    for (uint i = 0; i < _rewards.length; i++) {
+      totalReward += _rewards[i];
+    }
   }
 
   //================== Modifier ==================//

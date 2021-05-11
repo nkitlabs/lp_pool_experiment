@@ -45,6 +45,6 @@ def test_exit(alice, bob, lp_pool, mock_lp_token, mock_mir_token, REWARDS):
     expect_rewards = (
         (latest_time - prev_time) * REWARDS[0] * stake_amount_alice) // (365*86400) // total_supply_now
     assert abs(mock_mir_token.balanceOf(alice) - expect_rewards) <= expect_rewards // 1000, (
-        f'incorrect balanceOf(alice); expect {expect_rewards},'
+        f'incorrect reward result; expect {expect_rewards},'
         f'got {mock_mir_token.balanceOf(alice)}'
     )

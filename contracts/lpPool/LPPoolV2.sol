@@ -16,7 +16,6 @@ contract LPPoolV2 is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
   // Immutable
   IERC20 public immutable override mir;
   uint public immutable override startTime;
-  uint public immutable override totalReward;
 
   // Time
   uint public periodFinish;
@@ -24,6 +23,7 @@ contract LPPoolV2 is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
 
   // Reward
   uint[] public rewards;
+  uint public override totalReward;
   uint public rewardRate;
   uint public rewardPerTokenStored;
 
@@ -43,8 +43,7 @@ contract LPPoolV2 is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
     address _mir,
     address _lpt,
     uint _startTime,
-    uint[] memory _rewards,
-    uint _totalReward
+    uint[] memory _rewards
   ) {
     require(_rewards.length > 0, 'LPPool: initReward should be greater than zero');
     require(
@@ -56,6 +55,10 @@ contract LPPoolV2 is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
     lpt = IERC20(_lpt);
     startTime = _startTime;
     rewards = _rewards;
+    uint _totalReward = 0;
+    for (uint i = 0; i < _rewards.length; i++) {
+      _totalReward += _rewards[i];
+    }
     totalReward = _totalReward;
   }
 
@@ -143,15 +146,9 @@ contract LPPoolV2 is ILPPool, LPTokenWrapper, IRewardDistributionRecipient {
 
   function exit() external override {
     withdraw(balanceOf(msg.sender));
-    getReward();
   }
 
   function getReward() public override updateReward(msg.sender) checkHalve checkStart {}
-
-  function safeTransferMIRToken(address account, uint reward) internal virtual {
-    mir.safeTransfer(account, reward);
-    emit RewardPaid(account, reward);
-  }
 
   function notifyReward() external override onlyRewardDistribution updateReward(address(0)) {
     rewardRate = currentReward().div(DURATION);
